@@ -14,7 +14,7 @@ let registered = {};
  *   │   └─FooBar.js
  *   └─Baz.js
  *
- * So you should name your classes like these ():
+ * So you should name your classes like these:
  * ns.foo.bar.FooBar
  * ns.Baz
  *
@@ -23,7 +23,7 @@ let registered = {};
  */
 function DefaultHandler(path)
 {
-    this.__path = path;
+	this.__path = path;
 }
 
 /**
@@ -35,7 +35,7 @@ function DefaultHandler(path)
  */
 DefaultHandler.prototype.isClass = function (pckg, name)
 {
-    return name[0] == name[0].toUpperCase();
+	return name[0] == name[0].toUpperCase();
 };
 
 /**
@@ -46,7 +46,7 @@ DefaultHandler.prototype.isClass = function (pckg, name)
  */
 DefaultHandler.prototype.onCreatePackage = function (parent, name, pckg)
 {
-    pckg.path = isPackage(parent) ? path.join(parent.path, name) : name;
+	pckg.path = isPackage(parent) ? path.join(parent.path, name) : name;
 };
 
 /**
@@ -56,7 +56,7 @@ DefaultHandler.prototype.onCreatePackage = function (parent, name, pckg)
  */
 DefaultHandler.prototype.loadClass = function (pckg, name)
 {
-    require(path.join(this.__path, pckg.path, name));
+	require(path.join(this.__path, pckg.path, name));
 };
 
 /**
@@ -77,35 +77,35 @@ DefaultHandler.prototype.loadClass = function (pckg, name)
  */
 function register(namespaces, handler, rootSymbol)
 {
-    if (!rootSymbol)
-    {
-        rootSymbol = global;
-    }
+	if (!rootSymbol)
+	{
+		rootSymbol = global;
+	}
 
-    if (typeof rootSymbol == "string")
-    {
-        rootSymbol = rootSymbol == "." ? exports : (exports[rootSymbol] = {});
-    }
+	if (typeof rootSymbol == "string")
+	{
+		rootSymbol = rootSymbol == "." ? exports : (exports[rootSymbol] = {});
+	}
 
-    if (!Array.isArray(namespaces))
-    {
-        namespaces = [namespaces];
-    }
+	if (!Array.isArray(namespaces))
+	{
+		namespaces = [namespaces];
+	}
 
-    if (typeof handler == "string")
-    {
-        handler = new DefaultHandler(handler);
-    }
+	if (typeof handler == "string")
+	{
+		handler = new DefaultHandler(handler);
+	}
 
-    namespaces.forEach(function (namespace)
-    {
-        registered[namespace] = {
-            handler: handler,
-            name: namespace
-        };
+	namespaces.forEach(function (namespace)
+	{
+		registered[namespace] = {
+			handler: handler,
+			name: namespace
+		};
 
-        createProxy(rootSymbol, namespace);
-    });
+		createProxy(rootSymbol, namespace);
+	});
 }
 
 /**
@@ -115,7 +115,7 @@ function register(namespaces, handler, rootSymbol)
  */
 function isPackage(obj)
 {
-    return obj.proxyAutoloadingPackage;
+	return obj.proxyAutoloadingPackage;
 }
 
 exports.DefaultHandler = DefaultHandler;
@@ -124,65 +124,65 @@ exports.isPackage = isPackage;
 
 function createProxy(parent, name)
 {
-    let proxy;
-    let pckg = {};
+	let proxy;
+	let pckg = {};
 
-    proxy = parent[name] = Proxy.create({
-        get: function (target, name)
-        {
-            if (!pckg.hasOwnProperty(name))
-            {
-                loadSymbol(proxy, name);
-            }
+	proxy = parent[name] = Proxy.create({
+		get: function (target, name)
+		{
+			if (!pckg.hasOwnProperty(name))
+			{
+				loadSymbol(proxy, name);
+			}
 
-            return pckg[name];
-        },
-        set: function (target, name, value)
-        {
-            pckg[name] = value;
-        },
-        has: function (target, name)
-        {
-            return name in pckg;
-        },
-        hasOwn: function (target, name)
-        {
-            return pckg.hasOwnProperty(name);
-        }
-    }, Object.getPrototypeOf(pckg));
+			return pckg[name];
+		},
+		set: function (target, name, value)
+		{
+			pckg[name] = value;
+		},
+		has: function (target, name)
+		{
+			return name in pckg;
+		},
+		hasOwn: function (target, name)
+		{
+			return pckg.hasOwnProperty(name);
+		}
+	}, Object.getPrototypeOf(pckg));
 
-    proxy.proxyAutoloadingPackage = true;
+	proxy.proxyAutoloadingPackage = true;
 
-    let namespace = isPackage(parent) ? parent.namespace : name;
-    proxy.namespace = namespace;
+	let namespace = isPackage(parent) ? parent.namespace : name;
+	proxy.namespace = namespace;
 
-    proxy.shortName = name;
-    proxy.fullName = isPackage(parent) ? parent.fullName + '.' + name : name;
+	proxy.shortName = name;
+	proxy.fullName = isPackage(parent) ? parent.fullName + '.' + name : name;
 
-    let handler = registered[namespace].handler;
-    handler.onCreatePackage && handler.onCreatePackage(parent, name, proxy);
+	let handler = registered[namespace].handler;
+	handler.onCreatePackage && handler.onCreatePackage(parent, name, proxy);
 }
 
 function loadClass(pckg, name)
 {
-    let handler = registered[pckg.namespace].handler;
-    handler.loadClass(pckg, name);
+	let handler = registered[pckg.namespace].handler;
+	handler.loadClass(pckg, name);
 
-    let cls = pckg[name];
-    cls.shortName = name;
-    cls.fullName = pckg.fullName + '.' + name;
+	let cls = pckg[name];
+	cls.shortName = name;
+	cls.fullName = pckg.fullName + '.' + name;
 }
 
 function loadSymbol(parent, name)
 {
-    let handler = registered[parent.namespace].handler;
+	let handler = registered[parent.namespace].handler;
 
-    if (handler.isClass(parent, name))
-    {
-        loadClass(parent, name);
-    }
-    else
-    {
-        createProxy(parent, name);
-    }
+	if (handler.isClass(parent, name))
+	{
+		loadClass(parent, name);
+	}
+	else
+	{
+		createProxy(parent, name);
+	}
 }

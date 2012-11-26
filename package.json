@@ -1,17 +1,26 @@
 {
-  "name": "proxy-autoload",
-  "version": "0.1.0",
-  "description": "Classes and modules autoloading (without 'require') using EcmaScript 6 Proxy",
-  "author": {
-    "name": "Artyom Bakharev",
-    "email": "artyom.bakharev@gmail.com"
-  },
-  "keywords": [
-    "proxy",
-    "autoload",
-    "require"
-  ],
-  "main": "./ProxyAutoload.js",
-  "readme": "",
-  "readmeFilename": "README.md"
+	"name": "proxy-autoload",
+	"version": "0.1.0",
+	"description": "Classes and modules autoloading (without 'require') using EcmaScript 6 Proxy",
+	"author": {
+		"name": "Artyom Bakharev",
+		"email": "artyom.bakharev@gmail.com"
+	},
+	"keywords": [
+		"proxy",
+		"autoload",
+		"require"
+	],
+	"main": "./ProxyAutoload.js",
+	"readme": "",
+	"readmeFilename": "README.md",
+	"bugs": {
+		"url": "https://github.com/mrThomasTeller/NodejsProxyAutoload/issues",
+		"email": "artyom.bakharev@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mrThomasTeller/NodejsProxyAutoload.git"
+	},
+	"engines" : { "node" : ">=0.5.4" }
 }
