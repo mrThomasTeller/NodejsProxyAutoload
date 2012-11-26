@@ -24,9 +24,9 @@ So you should name your classes like these:
 
 Just put similar code to your project:
 
-    require("proxy-autoload").register(["foo", "bar"], __dirname);
+    require('proxy-autoload').register(['foo', 'bar'], __dirname);
 
-So you can use all classes or modules from namespaces "foo" and "bar" like this:
+So you can use all classes or modules from namespaces 'foo' and 'bar' like this:
 
     var baz = new foo.bar.Baz();
     baz.greeting();
@@ -40,11 +40,11 @@ So you can use all classes or modules from namespaces "foo" and "bar" like this:
      * necessary. It's true lazy autoloading. You should run node.js with --harmony flag, because ES6 Proxy used for that.
      * Handler provides the way to load your classes. If handler is just string then default handler with
      * passed string as root directory will be used. By default classes names begin with first letter in upper case, other
-     * symbols are packages. A handler is object which contains "isClass" and "loadClass" methods, and can contain
-     * "onCreatePackage" (see the interface of DefaultHandler for details).
+     * symbols are packages. A handler is object which contains 'isClass' and 'loadClass' methods, and can contain
+     * 'onCreatePackage' (see the interface of DefaultHandler for details).
      * If rootSymbol parameter is not specified then namespaces will be added to global scope.
      * If an object passed as rootSymbol then child packages and classes will be added in this symbol
-     * If string passed then symbols will be added to exports[rootSymbol] of this module, and if "." passed then symbols
+     * If string passed then symbols will be added to exports[rootSymbol] of this module, and if '.' passed then symbols
      * will be added to exports of this module.
      *
      * @param {String|Array.<String>} namespaces one or more namespaces which should support autoloading
@@ -56,7 +56,7 @@ So you can use all classes or modules from namespaces "foo" and "bar" like this:
 ### DefaultHandler
 
     /**
-     * Handler implies the same files structure as following (root - is directory passed as "path", ns - is namespace which
+     * Handler implies the same files structure as following (root - is directory passed as 'path', ns - is namespace which
      * you registered the handler with):
      * root
      * └─ns

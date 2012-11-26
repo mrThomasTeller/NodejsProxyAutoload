@@ -2,7 +2,9 @@ var pal = require("../../ProxyAutoload.js");
 var path = require("path");
 var fs = require("fs");
 
-pal.register(["foo", "bar"], {
+console.log(__dirname);
+
+pal.register(["Foo", "Bar"], {
 	isClass: function (pckg, name)
 	{
 		return fs.existsSync(path.join(__dirname, pckg.path, name + ".js"));
@@ -11,7 +13,7 @@ pal.register(["foo", "bar"], {
 	{
 		pckg.path = pal.isPackage(parent) ? path.join(parent.path, name) : name;
 	},
-	loadClass: function (parent, name, pckg)
+	loadClass: function (pckg, name)
 	{
 		pckg[name] = require(path.join(__dirname, pckg.path, name));
 	}

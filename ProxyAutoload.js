@@ -148,6 +148,14 @@ function createProxy(parent, name)
 		hasOwn: function (target, name)
 		{
 			return pckg.hasOwnProperty(name);
+		},
+		getOwnPropertyNames: function(target)
+		{
+			return Object.getOwnPropertyNames(pckg);
+		},
+		getOwnPropertyDescriptor: function(target, name)
+		{
+			return Object.getOwnPropertyDescriptor(pckg, name);
 		}
 	}, Object.getPrototypeOf(pckg));
 

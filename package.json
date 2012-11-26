@@ -2,9 +2,13 @@
 	"name": "proxy-autoload",
 	"version": "0.1.0",
 	"description": "Classes and modules autoloading (without 'require') using EcmaScript 6 Proxy",
+	"homepage": "https://github.com/mrThomasTeller/NodejsProxyAutoload",
 	"author": {
 		"name": "Artyom Bakharev",
 		"email": "artyom.bakharev@gmail.com"
+	},
+	"directories": {
+		"example": "./examples"
 	},
 	"keywords": [
 		"proxy",
@@ -12,7 +16,7 @@
 		"require"
 	],
 	"main": "./ProxyAutoload.js",
-	"readme": "",
+	"readme": "# Proxy Autoload - Classes and modules autoloading (without 'require') using EcmaScript 6 Proxy\n\n[Proxy Autoload](https://github.com/mrThomasTeller/NodejsProxyAutoload) uses EcmaScript harmony proxy for supporting autoloading in your projects. Autoloading works like php class autoloading.\n\n## Usage\n\nYou should run node.js with --harmony flag!\n\nFor better understanding check our [examples](https://github.com/mrThomasTeller/NodejsProxyAutoload/tree/master/examples).\n\nBy default your files should be placed like this:\n\n    root\n     └─ns\n       ├─foo\n       │ └─bar\n       │   └─FooBar.js\n       └─Baz.js\n\nSo you should name your classes like these:\n\n    ns.foo.bar.FooBar\n    ns.Baz\n\nJust put similar code to your project:\n\n    require('proxy-autoload').register(['foo', 'bar'], __dirname);\n\nSo you can use all classes or modules from namespaces 'foo' and 'bar' like this:\n\n    var baz = new foo.bar.Baz();\n    baz.greeting();\n\n## API\n\n### register\n\n    /**\n     * Adds one or several symbols to passed root symbol. These symbols will load classes or modules automatically when it's\n     * necessary. It's true lazy autoloading. You should run node.js with --harmony flag, because ES6 Proxy used for that.\n     * Handler provides the way to load your classes. If handler is just string then default handler with\n     * passed string as root directory will be used. By default classes names begin with first letter in upper case, other\n     * symbols are packages. A handler is object which contains 'isClass' and 'loadClass' methods, and can contain\n     * 'onCreatePackage' (see the interface of DefaultHandler for details).\n     * If rootSymbol parameter is not specified then namespaces will be added to global scope.\n     * If an object passed as rootSymbol then child packages and classes will be added in this symbol\n     * If string passed then symbols will be added to exports[rootSymbol] of this module, and if '.' passed then symbols\n     * will be added to exports of this module.\n     *\n     * @param {String|Array.<String>} namespaces one or more namespaces which should support autoloading\n     * @param {Object|String} handler object which provides the way to load classes\n     * @param {Object|String} [rootSymbol=global] symbol which child symbols will be added to\n     */\n    function register(namespaces, handler, rootSymbol)\n\n### DefaultHandler\n\n    /**\n     * Handler implies the same files structure as following (root - is directory passed as 'path', ns - is namespace which\n     * you registered the handler with):\n     * root\n     * └─ns\n     *   ├─foo\n     *   │ └─bar\n     *   │   └─FooBar.js\n     *   └─Baz.js\n     *\n     * So you should name your classes like these:\n     * ns.foo.bar.FooBar\n     * ns.Baz\n     *\n     * @param {String} path root directory for autoloading\n     * @constructor\n     */\n    function DefaultHandler(path)\n    {\n        this.__path = path;\n    }\n    \n    /**\n     * Checks whether pckg[name] should be class (module) or package. You can validate symbol name and availability in this\n     * method.\n     * @param {Object} pckg parent symbol\n     * @param {String} name current symbol name\n     * @return {Boolean}\n     */\n    DefaultHandler.prototype.isClass = function (pckg, name)\n    \n    /**\n     * Method runs after new package creating.\n     * @param {Object} parent parent symbol\n     * @param {String} name package name\n     * @param {Object} pckg new package\n     */\n    DefaultHandler.prototype.onCreatePackage = function (parent, name, pckg)\n    \n    /**\n     * Loads class for passed package and class name.\n     * @param {Object} pckg parent package\n     * @param {String} name class name\n     */\n    DefaultHandler.prototype.loadClass = function (pckg, name)\n",
 	"readmeFilename": "README.md",
 	"bugs": {
 		"url": "https://github.com/mrThomasTeller/NodejsProxyAutoload/issues",
