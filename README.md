@@ -1,5 +1,7 @@
 # Proxy Autoload - Classes and modules autoloading (without 'require') using EcmaScript 6 Proxy
 
+[![Join the chat at https://gitter.im/mrThomasTeller/NodejsProxyAutoload](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mrThomasTeller/NodejsProxyAutoload?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [Proxy Autoload](https://github.com/mrThomasTeller/NodejsProxyAutoload) uses EcmaScript harmony proxy for supporting autoloading in your projects. Autoloading works like php class autoloading.
 
 ## Usage
